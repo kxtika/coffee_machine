@@ -112,7 +112,7 @@ def process_order():
         manager_mode = True
         return
 
-    # TODO: Get information about the drink and make the drink
+    # Get information about the drink and make the drink
     drink_data = get_data(user_drink, COFFEE_DRINKS)
     current_water, current_coffee, current_milk = subtract_measures(drink_data)
 
@@ -122,7 +122,7 @@ def process_order():
     if user_change > 0:
         print(f"Here is your change: ${user_change}.")
 
-    # TODO: Check if the transaction was successful
+    # Check if the transaction was successful
     if is_transaction_successful(user_change):
         revenue += drink_data[3]  # Add the cost of the drink to revenue
         print(config.GIVE_COFFEE)
@@ -140,7 +140,7 @@ while not machine_off:
         manager_functions = sanitize_input(manager_functions)
 
         if manager_functions == 1:
-            # TODO: 2. Report about the amount of milk, water, and coffee
+            # Report about the amount of milk, water, and coffee
             print(
                 f"There are {current_water}ml of water, {current_coffee}g of coffee, and {current_milk}ml of milk left."
                 f"The revenue is ${revenue}.")
