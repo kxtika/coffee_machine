@@ -30,5 +30,5 @@ Welcome to the Coffee Machine Project! This project simulates a coffee machine w
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/coffee-machine.git
+   git clone https://github.com/kxtika/coffee-machine.git
    cd coffee-machine
