@@ -2,6 +2,7 @@
 import config
 import sys
 
+# Information about drinks
 COFFEE_DRINKS = [
     {"number": 1,
      "name": "espresso",
@@ -14,18 +15,20 @@ COFFEE_DRINKS = [
      "coffee": 24,
      "water": 100,
      "milk": 150,
-     "cost": 1.5},
+     "cost": 2.5},
     {"number": 3,
      "name": "cappuccino",
      "coffee": 24,
      "water": 150,
      "milk": 100,
-     "cost": 1.5},
+     "cost": 2},
 ]
 
+# Setting flags
 machine_off = False
+manager_mode = False
 
-# TODO: 1. Set measures of liquids for different coffee drinks
+# Setting measures of liquids for different coffee drinks and intializing revenue
 current_water = 300
 current_coffee = 100
 current_milk = 200
@@ -34,7 +37,7 @@ revenue = 0
 
 
 def sanitize_input(number):
-    # Input sanitizing
+    """Sanitizes input."""
     if not number.isnumeric():
         print(config.DRINK_ERROR_MESSAGE)
         sys.exit(0)
@@ -48,6 +51,7 @@ def sanitize_input(number):
 
 
 def get_data(drink_number, lst):
+    """Extracts information about a certain drink from a dictionary by its index."""
     drink_number = sanitize_input(drink_number)
 
     drink_dict = lst[drink_number - 1]
@@ -59,8 +63,8 @@ def get_data(drink_number, lst):
     return water_amount, coffee_amount, milk_amount, cost
 
 
-# TODO: . Subtract a needed amount of supplies for the drink
 def subtract_measures(tpl):
+    """Imitates preparing a coffee by subtracting a necessary amount of water, coffee and milk from the supplies."""
     global current_water, current_coffee, current_milk
     current_water -= tpl[0]
     current_coffee -= tpl[1]
@@ -69,8 +73,8 @@ def subtract_measures(tpl):
     return current_water, current_coffee, current_milk
 
 
-# TODO: . Manage money and give change if necessary (before making the drink)
 def count_money():
+    """Takes a number of coins of different values and returns their summary."""
     pennies = int(input(config.ASK_FOR_PENNIES))
     nickels = int(input(config.ASK_FOR_NICKELS))
     dimes = int(input(config.ASK_FOR_DIMES))
@@ -87,42 +91,62 @@ def count_money():
 
 
 def subtract_money(tpl, money):
+    """Subtracts cost of the drink from given money and returns change."""
     change = money - tpl[3]
     return change
 
 
-# TODO: . Check if the transaction was successful
 def is_transaction_successful(change):
+    """Returns true if change is bigger than 0."""
     return change >= 0
 
 
-while not machine_off:
-    # TODO: . Ask a customer to choose a drink
-    user_drink = input(config.ASK_FOR_COFFEE)
+def process_order():
+    """Processes the order. Prompts user to choose a drink. Prepares it if there are enough supplies
+    and the transaction was successful. If the user types 'manager', enters the manager mode. The manager can see the
+    report, which includes current supplies and revenue. The manager can turn off the coffee machine"""
+    global manager_mode
+    global current_water, current_coffee, current_milk, revenue
+    user_drink = input(config.ASK_FOR_COFFEE).lower()
+    if user_drink == "manager":
+        manager_mode = True
+        return
 
-    # TODO:
+    # TODO: Get information about the drink and make the drink
     drink_data = get_data(user_drink, COFFEE_DRINKS)
     current_water, current_coffee, current_milk = subtract_measures(drink_data)
 
     given_money = count_money()
-    print(given_money)
+    print(f"You inserted ${given_money}.")
     user_change = subtract_money(drink_data, given_money)
-    print(user_change)
+    if user_change > 0:
+        print(f"Here is your change: ${user_change}.")
 
-    # TODO: . Check if the transaction was successful
+    # TODO: Check if the transaction was successful
     if is_transaction_successful(user_change):
         revenue += drink_data[3]  # Add the cost of the drink to revenue
+        print(config.GIVE_COFFEE)
+        print(config.CUP_OF_COFFEE)
+    else:
+        print(config.ASK_FOR_MORE_MONEY)
 
 
-    manager_functions = input("If you want to see the report, press '1'. To see revenue, press '2'. "
-                              "To turn off the machine press '3'.")
+while not machine_off:
+    process_order()
 
-    sanitize_input(manager_functions)
+    while manager_mode:
+        manager_functions = input(config.MANAGER_MODE)
 
-    if manager_functions == 1:
-        # TODO: 2. Report about the amount of milk, water, and coffee
-        print(f"There are {current_water}ml of water, {current_coffee}g of coffee, and {current_milk}ml of milk left.")
-    elif manager_functions == 2:
-        print(f"The revenue is ${revenue}.")
-    elif manager_functions == 3:
-        machine_off = True
+        manager_functions = sanitize_input(manager_functions)
+
+        if manager_functions == 1:
+            # TODO: 2. Report about the amount of milk, water, and coffee
+            print(
+                f"There are {current_water}ml of water, {current_coffee}g of coffee, and {current_milk}ml of milk left."
+                f"The revenue is ${revenue}.")
+        elif manager_functions == 2:
+            # Exit the loop
+            manager_mode = False
+        elif manager_functions == 3:
+            machine_off = True
+            break
