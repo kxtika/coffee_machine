@@ -4,25 +4,9 @@ import sys
 
 # Information about drinks
 COFFEE_DRINKS = [
-    {"number": 1,
-     "name": "espresso",
-     "coffee": 18,
-     "water": 50,
-     "milk": 0,
-     "cost": 1.5},
-    {"number": 2,
-     "name": "latte",
-     "coffee": 24,
-     "water": 100,
-     "milk": 150,
-     "cost": 2.5},
-    {"number": 3,
-     "name": "cappuccino",
-     "coffee": 24,
-     "water": 150,
-     "milk": 100,
-     "cost": 2},
-]
+    {"number": 1, "name": "espresso", "coffee": 18, "water": 50, "milk": 0, "cost": 1.5},
+    {"number": 2, "name": "latte", "coffee": 24, "water": 100, "milk": 150, "cost": 2.5},
+    {"number": 3, "name": "cappuccino", "coffee": 24, "water": 150, "milk": 100, "cost": 2},]
 
 # Setting flags
 machine_off = False
@@ -37,7 +21,7 @@ revenue = 0
 
 
 def sanitize_input(number):
-    """Sanitizes input."""
+    """Does a type check and checks if the number is in the right range."""
     if not number.isnumeric():
         print(config.DRINK_ERROR_MESSAGE)
         sys.exit(0)
@@ -71,6 +55,8 @@ def subtract_measures(tpl):
     current_milk -= tpl[2]
 
     return current_water, current_coffee, current_milk
+def check_measures(drink_number, water, coffee, milk):
+
 
 
 def count_money():
