@@ -55,7 +55,9 @@ def subtract_measures(tpl):
     current_milk -= tpl[2]
 
     return current_water, current_coffee, current_milk
-def check_measures(drink_number, water, coffee, milk):
+
+
+# def check_measures(drink_number, water, coffee, milk):
 
 
 
