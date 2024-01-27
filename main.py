@@ -57,8 +57,13 @@ def subtract_measures(tpl):
     return current_water, current_coffee, current_milk
 
 
-# def check_measures(drink_number, water, coffee, milk):
+def check_measures(drink_number, water, coffee, milk):
+    """Checks if there is enough supplies to make a drink."""
+    global current_water, current_coffee, current_milk
 
+    if current_water < water or current_coffee < coffee or current_milk < milk:
+        print(config.NOT_ENOUGH_SUPPLIES)
+        sys.exit(0)
 
 
 def count_money():
