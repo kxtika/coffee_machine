@@ -65,20 +65,46 @@ def check_measures(data):
 
 
 def count_money():
-    """Takes a number of coins of different values and returns their summary."""
-    pennies = int(input(config.ASK_FOR_PENNIES))
-    nickels = int(input(config.ASK_FOR_NICKELS))
-    dimes = int(input(config.ASK_FOR_DIMES))
-    quarters = int(input(config.ASK_FOR_QUARTERS))
+   """Takes a number of coins of different values and returns their summary."""
+   while True:
+       # Loop until all inputs are valid
+       valid_input = True
 
-    pennies *= 0.01
-    nickels *= 0.05
-    dimes *= 0.1
-    quarters *= 0.25
+       # Validate and assign each input
+       pennies = get_valid_int(config.ASK_FOR_PENNIES)
+       nickels = get_valid_int(config.ASK_FOR_NICKELS)
+       dimes = get_valid_int(config.ASK_FOR_DIMES)
+       quarters = get_valid_int(config.ASK_FOR_QUARTERS)
 
-    money = pennies + nickels + dimes + quarters
+       # Check if any input was invalid
+       if not valid_input:
+           print("Invalid input. Please enter positive integers for the number of coins.")
+           continue  # Restart the loop
 
-    return money
+       # All inputs valid, exit the loop
+       break
+
+   # Perform calculations and return total money
+   pennies *= 0.01
+   nickels *= 0.05
+   dimes *= 0.1
+   quarters *= 0.25
+
+   money = pennies + nickels + dimes + quarters
+
+   return money
+
+# Helper function to validate and get positive integer input
+def get_valid_int(prompt):
+    while True:
+        try:
+            value = int(input(prompt))
+            if value >= 0:
+                return value
+            else:
+                raise ValueError
+        except:
+            ValueError
 
 
 def subtract_money(tpl, money):

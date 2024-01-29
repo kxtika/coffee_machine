@@ -17,4 +17,3 @@ ASK_FOR_MORE_MONEY: str = "Insufficient funds. Please insert more money."
 GIVE_COFFEE: str = "Transaction successful! Enjoy your coffee: "
 MANAGER_MODE: str = """If you want to see the report, press '1'. To exit manager mode, press '2'. 
 To turn off the machine, press '3': """
-
